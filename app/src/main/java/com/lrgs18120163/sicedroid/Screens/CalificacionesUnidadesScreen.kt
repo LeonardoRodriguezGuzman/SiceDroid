@@ -1,51 +1,73 @@
 package com.lrgs18120163.sicedroid.Screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.Card
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.lrgs18120163.sicedroid.ViewModels.AppViewModelFactory
-import com.lrgs18120163.sicedroid.ViewModels.CalificacionesFinalesViewModel
+import com.lrgs18120163.sicedroid.ViewModels.CalificacionesUnidadesViewModel
 import com.lrgs18120163.sicedroid.data.DefaultAppContainer
-import com.lrgs18120163.sicedroid.model.CalificacionesFinales
+import com.lrgs18120163.sicedroid.model.CalificacionesUnidades
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalificacionesFinalesContent(calificacionesFinales: List<CalificacionesFinales>) {
+fun CalificacionesUnidadesContent(calificaciones: List<CalificacionesUnidades>) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
         contentPadding = PaddingValues(8.dp)
     ) {
-        items(calificacionesFinales.size) { index ->
-            val calificacion = calificacionesFinales[index]
+        items(calificaciones.size) { index ->
+            val calificacion = calificaciones[index]
             Card(modifier = Modifier.padding(8.dp)) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Materia: ${calificacion.materia}", style = MaterialTheme.typography.headlineSmall)
+                    Text(
+                        "Materia: ${calificacion.materia}",
+                        style = MaterialTheme.typography.headlineSmall
+                    )
                     Text("Grupo: ${calificacion.grupo}")
-                    Text("Calificación: ${calificacion.calif}")
-                    Text("Acreditado: ${calificacion.acred}")
+                    val calificaciones = mapOf(
+                        "U1" to calificacion.c1,
+                        "U2" to calificacion.c2,
+                        "U3" to calificacion.c3,
+                        "U4" to calificacion.c4,
+                        "U5" to calificacion.c5,
+                        "U6" to calificacion.c6,
+                        "U7" to calificacion.c7,
+                        "U8" to calificacion.c8,
+                        "U9" to calificacion.c9,
+                        "U10" to calificacion.c10,
+                        "U11" to calificacion.c11,
+                        "U12" to calificacion.c12,
+                        "U13" to calificacion.c13
+                    ).filterValues { it != null }
+
+                    calificaciones.forEach { (unidad, calificacion) ->
+                        Text("$unidad: $calificacion")
+                    }
                 }
             }
         }
@@ -54,19 +76,19 @@ fun CalificacionesFinalesContent(calificacionesFinales: List<CalificacionesFinal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalificacionesFinalesScreen(
+fun CalificacionesUnidadesScreen(
     navController: NavHostController,
     appContainer: DefaultAppContainer
 ) {
-    val viewModel: CalificacionesFinalesViewModel = viewModel(factory = AppViewModelFactory(appContainer))
-    val calificacionesFinales by viewModel.calificacionesFinales.collectAsState()
+    val viewModel: CalificacionesUnidadesViewModel = viewModel(factory = AppViewModelFactory(appContainer))
+    val calificaciones by viewModel.calificaciones.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Calificaciones Finales") },
+                title = { Text("Calificaciones") },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) { // Botón de retroceso
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -86,8 +108,9 @@ fun CalificacionesFinalesScreen(
             when {
                 isLoading -> CircularProgressIndicator()
                 error != null -> Text("Error: $error", color = Color.Red)
-                else -> CalificacionesFinalesContent(calificacionesFinales)
+                else -> CalificacionesUnidadesContent(calificaciones)
             }
         }
     }
 }
+

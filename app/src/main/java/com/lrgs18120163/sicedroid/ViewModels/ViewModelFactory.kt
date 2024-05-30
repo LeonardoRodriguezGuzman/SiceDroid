@@ -10,6 +10,9 @@ class AppViewModelFactory(private val appContainer: DefaultAppContainer) : ViewM
             LoginViewModel::class.java -> LoginViewModel(appContainer)
             HomeViewModel::class.java -> HomeViewModel(appContainer)
             CargaAcademicaViewModel::class.java -> CargaAcademicaViewModel(appContainer)
+            CalificacionesUnidadesViewModel::class.java -> CalificacionesUnidadesViewModel(appContainer)
+            CalificacionesFinalesViewModel::class.java -> CalificacionesFinalesViewModel(appContainer)
+            KardexViewModel::class.java -> KardexViewModel(appContainer)
             // Agrega aquí otros ViewModels que utilicen AppContainer
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         } as T

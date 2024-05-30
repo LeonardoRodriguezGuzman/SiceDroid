@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.Scaffold
@@ -23,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -34,7 +36,7 @@ import com.lrgs18120163.sicedroid.model.CargaAcademica
 
 @Composable
 fun HorarioContent(horario: List<CargaAcademica>) {
-    val diasSemana = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado")
+    val diasSemana = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
 
     Column {
         // Encabezado de la tabla
@@ -69,7 +71,6 @@ fun HorarioContent(horario: List<CargaAcademica>) {
                                     "Miércoles" -> materia.miercoles != ""
                                     "Jueves" -> materia.jueves != ""
                                     "Viernes" -> materia.viernes != ""
-                                    "Sábado" -> materia.sabado != ""
                                     else -> false
                                 }
                             }
@@ -83,15 +84,14 @@ fun HorarioContent(horario: List<CargaAcademica>) {
                                         "Miércoles" -> materia.miercoles
                                         "Jueves" -> materia.jueves
                                         "Viernes" -> materia.viernes
-                                        "Sábado" -> materia.sabado
                                         else -> "" // Valor por defecto si el día no coincide
                                     }
                                     if (horarioDia != "") {
                                         val horaClase = horarioDia.split(" ").first() // Obtiene "HH:mm"
                                         val aula = horarioDia.substringAfter("Aula: ") // Obtiene "nombreAula"
 
-                                        Text(text = "Hora: $horaClase", style = MaterialTheme.typography.bodySmall)
-                                        Text(text = "Aula: $aula", style = MaterialTheme.typography.bodySmall)
+                                        Text(text = "$horaClase", style = MaterialTheme.typography.bodySmall)
+                                        Text(text = "$aula", style = MaterialTheme.typography.bodySmall)
                                     }
                                     Divider(modifier = Modifier.padding(top = 4.dp))
                                 }
@@ -114,7 +114,12 @@ fun CargaAcademicaScreen(navController: NavHostController, appContainer: Default
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Horario") }
+                title = { Text("Horario") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
             )
         }
     ) { innerPadding ->
@@ -132,10 +137,4 @@ fun CargaAcademicaScreen(navController: NavHostController, appContainer: Default
             }
         }
     }
-    Button(onClick = {
-        navController.navigate("home")
-    }){
-        Text("Home")
-    }
 }
-

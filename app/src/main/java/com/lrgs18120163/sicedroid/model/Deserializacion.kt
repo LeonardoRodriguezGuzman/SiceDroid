@@ -74,10 +74,10 @@ class KardexEnvelope {
 class KardexBody {
     @field:Element(name = "getAllKardexConPromedioByAlumnoResponse", required = false)
     @field:Namespace(reference = "http://tempuri.org/")
-    var response: KardexResponse? = null
+    var response: KardexResponse2? = null
 }
 
-class KardexResponse {
+class KardexResponse2 {
     @field:Element(name = "getAllKardexConPromedioByAlumnoResult", required = false)
     var result: String? = null
 }

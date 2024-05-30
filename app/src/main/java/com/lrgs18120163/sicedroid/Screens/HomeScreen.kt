@@ -66,13 +66,21 @@ fun HomeScreen(navController: NavHostController, appContainer: DefaultAppContain
                             Text(text = "Carrera: ${datosAlumno?.carrera}", style = MaterialTheme.typography.bodyLarge)
                             Text(text = "Especialidad: ${datosAlumno?.especialidad}", style = MaterialTheme.typography.bodyLarge)
                             Text(text = "Semestre Actual: ${datosAlumno?.semActual}", style = MaterialTheme.typography.bodyLarge)
-                            // ... Mostrar otros datos del alumno
                         }
                     }
                 }
             }
             Button(onClick = { navController.navigate("cargaacademica") }) {
-                Text("Ver horario")
+                Text("Ver Carga Academica")
+            }
+            Button(onClick = { navController.navigate("unidades") }) {
+                Text("Ver Calificaciones por Unidad")
+            }
+            Button(onClick = { navController.navigate("finales") }) {
+                Text("Ver Calificaciones Finales")
+            }
+            Button(onClick = { navController.navigate("kardex") }) {
+                Text("Ver Kardex")
             }
         }
     }

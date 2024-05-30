@@ -33,7 +33,9 @@ class HomeViewModel(private val appContainer: DefaultAppContainer) : ViewModel()
             try {
                 val datos = appContainer.repositorio.getAlumnoAcademicoWithLineamiento()
                 val carga = appContainer.repositorio.getCargaAcademicaByAlumno()
-                Log.d("carga","CargaAcademica: $carga")
+                val kardex = appContainer.repositorio.getAllKardexConPromedioByAlumno(1)
+                Log.d("carga","$carga")
+                Log.d("kardex","$kardex")
                 datos?.let { json ->
                     val dAlumno = gson.fromJson(json, DatosAlumno::class.java)
                     val sdf = SimpleDateFormat("dd/MM/yyyy|HH:mm")
